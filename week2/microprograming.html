@@ -34,44 +34,67 @@
   <source src="../pictures/bmv_design1.MOV" type="video/mp4">
 </video>
 
+  <pre>
+  const int motorPin1 = 3;  // define pin 3 for A-1A (PWM Speed)
+const int motorPin2 = 4;  // define pin 4 for A-1B (direction)
+const int LEDPin1 = 5;    // LED Pin Output
+const int buttonPin = 2;  // define pin 2 for button state input
+int buttonState = 0;
+
+// Setup i/o pins on board
+void setup() {
+  // specify these pins as inputs
+  pinMode(buttonPin, INPUT);
   
-<p>My first idea for a kinetic sculpture was to make an animal or a man walk. I first started with a model found through the course website. From there, I used trial and error to reconstruct a simplified version using the tinker kits. I made a mirror image to the legs on the other side of the board; however, I staggered the timing to get the illusion of walking. </p> 
- <p>
-<img src=../pictures/design1.png width="238" height="317">
-<img src=../pictures/design2.png width="422" height="318">
-<img src=../pictures/design3.png width="236" height="317">
-<img src=../pictures/design4.png width="238" height="317">
-<!--find out how to add videos bmv_design1 & bmv_design2-->
+  // specify these pins as outputs
+  pinMode(motorPin1, OUTPUT); 
+  pinMode(motorPin2, OUTPUT);
+  pinMode(LEDPin1, OUTPUT); 
+  }
+
+// Function to turn on the motor in a clockwise direction
+// input: speed as integer from 0 to 255
+void motorForward( int speed ) {
+  // Set Motor speed
+  analogWrite(motorPin1, speed); 
+  digitalWrite(motorPin2, HIGH);
+
+  // Turn off LEDs
+  digitalWrite(LEDPin1, LOW);
+}
+
+// Function to turn on the motor in a counter clockwise direction
+// input: speed as integer from 0 to 255
+void motorReverse( int speed ) {
+  // Set motor speed
+  analogWrite(motorPin1, speed); 
+  digitalWrite(motorPin2, LOW);
   
-<p>After building the basic model, I started designing the supports for the sculpture and motor. I took careful measurements, making sure everything would fit together. Then, after much consideration, I decided that my sculpture would look more natural if the supports were made into a bike shape. So instead of a walking man, I now had my creation, Bike Man. </p>
-<p>
-<img src=../pictures/bm_draw1.png width="237" height="317">
-<img src=../pictures/bm_draw2.png width="237" height="317">
-<img src=../pictures/bm_draw3.png width="237" height="317">
-<img src=../pictures/bm_draw4.png width="237" height="317">
-<img src=../pictures/bm_draw5.png width="237" height="317">
-<img src=../pictures/bm_draw6.png width="237" height="317">
+  // Turn on LEDs
+  digitalWrite(LEDPin1, HIGH);
+}
+
+// Main loop function for board
+void loop() {
+  // Read the current button state
+  buttonState = digitalRead(buttonPin);
   
-<p>On Friday, I attempted to move my ideas over to Fusion to laser cut them. However, I had a few technical difficulties, and had to take some supplies home over the weekend instead. During my weekend, I hand measured and cut out many different designs for Mr. Bike Man. Mr. Bike Man is made entirely out of cardboard minus the motor and wires. While testing my sculpture, I had trouble keeping my gears connected to my motor, so I did eventually end up taping that one part. However, I will ideally fix that later. After many hours of work, I finish the first prototype of Mr. Bike Man.</p>
-<p>
-<img src=../pictures/bmCAD.png width="768" height="432">
-  <p>
-<img src=../pictures/pro1.png width="237" height="317">
-<img src=../pictures/pro2.png width="237" height="317">
-<img src=../pictures/pro3.png width="237" height="317">
-<img src=../pictures/pro4.png width="237" height="317">
- <p> <video width="300" height="550" controls>
-  <source src="../pictures/bmv_pro1.MOV" type="video/mp4">
-</video>
-  <video width="550" height="300" controls>
-  <source src="../pictures/bmv_pro2.MOV" type="video/mp4">
-</video>
+  // If the button is not pressed
+  if (buttonState == LOW) {
+    // start the motor forward at a low speed
+    motorForward(150);
+  }
   
-<p>When the lab opened again on Monday, I took Mr. Bike Man into the lab and added some finishing touches such as wheels, handle bars, and a pipe cleaner man with a hat. Finally, I plugged him into an Arduino Uno, then into my computer, and he could officially bike forwards. </p>
-<img src=../pictures/bm_final.png width="237" height="317">
-<video width="300" height="550" controls>
-  <source src="../pictures/bmv_f_class3.MOV" type="video/mp4">
-</video>
+  else {
+    // start the motor in reverse at a low speed
+    motorReverse(70);
+  }  
+  
+  // Add a quick delay in case of direction change on next button press
+  delay(1000);  
+}
+</pre>
+
   
 </xmp>
 </body>
