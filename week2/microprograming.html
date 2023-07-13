@@ -59,23 +59,23 @@ void loop() {
    }
 } // continue at the beginning of the loop
 </pre></p>
-
+<p>
   <p>After I programed the lights, I built my circuit for my microprogramming assignment. I wanted Mr. Bike Man to bike forwards at an average rate, then, with the button pressed, bike backwards slowly with a hazard LED light flashing in the back. After many attempts, and a few circuit changes, I finally got him to work! Below are the pictures of the circuit set up and the finished microprograming assignment. Underneath the pictures is the code I used to program Mr. Bike Man. </p>
-<img src=../pictures/mpc1.png width="239" height="318">
+<img src=../pictures/mpc1.png width="380" height="250">
 <img src=../pictures/mpc2.png width="380" height="250">
-<img src=../pictures/mpc3.png width="237" height="317">
-<img src=../pictures/mpc4.png width="239" height="318">
+<img src=../pictures/mpc3.png width="380" height="250">
+<img src=../pictures/mpc4.png width="380" height="250">
 <img src=../pictures/mpc5.png width="380" height="250">
-<img src=../pictures/mpc6.png width="237" height="317">
-<img src=../pictures/mpc7.png width="239" height="318">
-<img src=../pictures/mpc8.png width="380" height="250">
-<img src=../pictures/mpc9.png width="237" height="317">
+<img src=../pictures/mpc6.png width="380" height="250">
+<img src=../pictures/mpc7.png width="380" height="250">
+<img src=../pictures/mpc8.png width="237" height="318">
+<img src=../pictures/mpc9.png width="380" height="250">
 <video width="300" height="550" controls>
   <source src="../pictures/mpc_vid.MOV" type="video/mp4">
 </video>
   
-  <p class="borderexample">
-  <pre><code>
+  <p style="border-width:3px; border-style:solid; border-color:#FF0000; padding: 1em;">
+  <pre>
   const int motorPin1 = 3;  // define pin 3 for A-1A (PWM Speed)
 const int motorPin2 = 4;  // define pin 4 for A-1B (direction)
 const int LEDPin1 = 5;    // LED Pin Output
@@ -134,7 +134,7 @@ void loop() {
   // Add a quick delay in case of direction change on next button press
   delay(1000);  
 }
-  </code></pre>
+  </pre>
 </p>
   
 </xmp>
