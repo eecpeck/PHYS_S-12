@@ -5,7 +5,11 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../style.css" rel="stylesheet">
 
-
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/arduino-light.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/arduino.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+  
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <div style="align-items: left; justify-content:left;" class="container-fluid">
     <h3 class="nav-title"> PHYS S-12: Microprograming</h3>
@@ -34,8 +38,7 @@
 <p>    
 </p>
   <p>
-  <pre>
-    <&ltcode&gt>
+  <pre><code class="language-arduino">
   int buttonstate = 0;
 
 void setup() {
@@ -61,7 +64,7 @@ void loop() {
    }
 } // continue at the beginning of the loop
       </&ltcode&gt>
-  </pre>
+  </code></pre>
 </p>
 
 </body>
