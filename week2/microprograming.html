@@ -34,6 +34,37 @@
   <source src="../pictures/bmv_design1.MOV" type="video/mp4">
 </video>
 
+
+  <p>To learn how to use C++ before starting on my assignment, I began with programming LEDs and buttons. I used a simple if/else statement to have one LED turn on with the button pressed and the other turn on with the button released.</p>
+<p><pre>
+  int buttonstate = 0;
+
+void setup() {
+// set arduino pin modes
+  pinMode(2,INPUT);
+  pinMode(3,OUTPUT);
+  pinMode(4,OUTPUT);
+}
+
+void loop() {
+  // Loop code
+  buttonstate = digitalRead(2);
+
+  // If the button is not pressed
+  if (buttonstate == LOW) {
+    digitalWrite(3, HIGH); // top LED on
+    digitalWrite(4, LOW); // bottom LED off
+  }
+  // the button is pressed
+  else { 
+    digitalWrite(3, LOW); // top LED off
+    digitalWrite(4, HIGH); // bottom LED on
+   }
+} // continue at the beginning of the loop
+</pre></p>
+
+  <p></p>
+  
   <pre>
   const int motorPin1 = 3;  // define pin 3 for A-1A (PWM Speed)
 const int motorPin2 = 4;  // define pin 4 for A-1B (direction)
