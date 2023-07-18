@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<title>PHYS S-12: Microprograming</title>
+<title>PHYS S-12: I/O Devices</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../style.css" rel="stylesheet">
 
@@ -12,7 +12,7 @@
   
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <div style="align-items: left; justify-content:left;" class="container-fluid">
-    <h3 class="nav-title"> PHYS S-12: Microprograming</h3>
+    <h3 class="nav-title"> PHYS S-12: I/O Devices</h3>
     <div class="navbar-nav">
       <h4></h4>
       <h4><a class="nav-link" href="../index.html">Home</a></h4>
@@ -26,11 +26,22 @@
 <xmp style="display:none;">
 <br> 
 
-#### Class 4: Microprograming Mr. Bike Man
+#### Class 6: Input Devices
   
- In my class on Thursday 29th, I was taught how to create more advanced circuits and how to program an Arduino Uno. Using the Arduino board and C++ coding, I could now make a motor spin forwards and backwards at varied speeds as well as control LED patterns.<p>
-<img src=../pictures/Ccode1.png width="239" height="318">
-<img src=../pictures/Ccode2.png width="237" height="317">
+ In class, on Tuesday the 11th, we learned about several different sensors, input devices, and coding techniques. Using the data and code provided on the class website, I was able to build working circuits for heat sensors and light sensors.
+<p>For the first part of the class assignment, I attempted to calibrate a magnetic field sensor. I started by wiring the circuit from the course website. Then I wrote the code below to read the signal from the hall sensor. When trying to calibrate the maximum and minimum of the sensor, I discovered that it is quite sensitive for distances above 1 mm and less than 9 mm. According to the data table below, the practical range is around 2 to 8 mm. </p>
+<p>
+   <pre><code class="language-arduino">
+     void setup(){
+ Serial.begin(9600);
+}
+   // read the value given 
+ void loop(){
+  int val = analogRead(A0);  // read Hall sensor value
+ }
+ </code></pre>
+</p>
+  <img src=../pictures/Ccode2.png width="237" height="317">
 
 
 <p>    
