@@ -1,1 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<title>PHYS S-12: Microprograming</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/arduino-light.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/arduino.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+  
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div style="align-items: left; justify-content:left;" class="container-fluid">
+    <h3 class="nav-title"> PHYS S-12: Microprograming</h3>
+    <div class="navbar-nav">
+      <h4></h4>
+      <h4><a class="nav-link" href="../index.html">Home</a></h4>
+      <h4><a class="nav-link" href="../about.html">About</a></h4>
+    </div>
+  </div>
+</nav>
+
+<body>
+
+<xmp style="display:none;">
+<br> 
+
+#### Class 4: Microprograming Mr. Bike Man
+  
+ In my class on Thursday 29th, I was taught how to create more advanced circuits and how to program an Arduino Uno. Using the Arduino board and C++ coding, I could now make a motor spin forwards and backwards at varied speeds as well as control LED patterns.<p>
+<img src=../pictures/Ccode1.png width="239" height="318">
+<img src=../pictures/Ccode2.png width="237" height="317">
+
+
+<p>    
+</p>
+  <p>To learn how to use C++ before starting on my assignment, I began with programming LEDs and buttons. I used a simple if/else statement to have one LED turn on with the button pressed and the other turn on with the button released.</p>
+<p>    
+</p>
+  <p>
+  <pre><code class="language-arduino">
+  int buttonstate = 0;
+
+void setup() {
+// set arduino pin modes
+  pinMode(2,INPUT);
+  pinMode(3,OUTPUT);
+  pinMode(4,OUTPUT);
+}
+
+void loop() {
+  // Loop code
+  buttonstate = digitalRead(2);
+
+  // If the button is not pressed
+  if (buttonstate == LOW) {
+    digitalWrite(3, HIGH); // top LED on
+    digitalWrite(4, LOW); // bottom LED off
+  }
+  // the button is pressed
+  else { 
+    digitalWrite(3, LOW); // top LED off
+    digitalWrite(4, HIGH); // bottom LED on
+   }
+} // continue at the beginning of the loop
+  </code></pre>
+</p>
+
+</body>
+
+  
+<body>
+  <p>After I programed the lights, I built my circuit for my microprogramming assignment. I wanted Mr. Bike Man to bike forwards at an average rate, then, with the button pressed, bike backwards slowly with a hazard LED light flashing in the back. After many attempts, and a few circuit changes, I finally got him to work! Below are the pictures of the circuit set-up and the finished microprograming assignment. Underneath the pictures is the code I used to program Mr. Bike Man. </p>
+<img src=../pictures/mpc1.png width="237" height="318">
+<img src=../pictures/mpc2.png width="380" height="250">
+<img src=../pictures/mpc3.png width="380" height="250">
+<img src=../pictures/mpc4.png width="380" height="250">
+<img src=../pictures/mpc5.png width="380" height="250">
+<img src=../pictures/mpc6.png width="380" height="250">
+<img src=../pictures/mpc7.png width="380" height="250">
+<img src=../pictures/mpc8.png width="237" height="318">
+<img src=../pictures/mpc9.png width="380" height="250">
+<video width="380" height="250" controls>
+  <source src="../pictures/mpc_vid.mov" type="video/mp4">
+</video>
+  
+  <p>
+  <pre><code class="language-arduino">
+  const int motorPin1 = 3;  // define pin 3 for A-1A (PWM Speed)
+const int motorPin2 = 4;  // define pin 4 for A-1B (direction)
+const int LEDPin1 = 5;    // LED Pin Output
+const int buttonPin = 2;  // define pin 2 for button state input
+int buttonState = 0;
+
+// Setup i/o pins on board
+void setup() {
+  // specify these pins as inputs
+  pinMode(buttonPin, INPUT);
+  
+  // specify these pins as outputs
+  pinMode(motorPin1, OUTPUT); 
+  pinMode(motorPin2, OUTPUT);
+  pinMode(LEDPin1, OUTPUT); 
+  }
+
+// Function to turn on the motor in a clockwise direction
+// input: speed as integer from 0 to 255
+void motorForward( int speed ) {
+  // Set Motor speed
+  analogWrite(motorPin1, speed); 
+  digitalWrite(motorPin2, HIGH);
+
+  // Turn off LEDs
+  digitalWrite(LEDPin1, LOW);
+}
+
+// Function to turn on the motor in a counter clockwise direction
+// input: speed as integer from 0 to 255
+void motorReverse( int speed ) {
+  // Set motor speed
+  analogWrite(motorPin1, speed); 
+  digitalWrite(motorPin2, LOW);
+  
+  // Turn on LEDs
+  digitalWrite(LEDPin1, HIGH);
+}
+
+// Main loop function for board
+void loop() {
+  // Read the current button state
+  buttonState = digitalRead(buttonPin);
+  
+  // If the button is not pressed
+  if (buttonState == LOW) {
+    // start the motor forward at a low speed
+    motorForward(150);
+  }
+  
+  else {
+    // start the motor in reverse at a low speed
+    motorReverse(70);
+  }  
+  
+  // Add a quick delay in case of direction change on next button press
+  delay(1000);  
+}
+  </code></pre>
+</p>
+  
+</xmp>
+</body>
+
+<script src="../strapdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+</html>
