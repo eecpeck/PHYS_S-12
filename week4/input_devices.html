@@ -30,7 +30,7 @@
   
  In class, on Tuesday the 11th, we learned about several different sensors, input devices, and coding techniques. Using the data and code provided on the class website, I was able to build working circuits for heat sensors and light sensors.
 <p>
-For the first part of the class assignment, I attempted to calibrate a magnetic field sensor. I started by wiring the circuit from the course website. Then I wrote the code below to read the signal from the hall sensor. When trying to calibrate the maximum and minimum of the sensor, I discovered that it is quite sensitive for distances above 1 mm and less than 9 mm. According to the data table below, the practical range is around 2 to 8 mm. </p>
+For the first part of the class assignment, I calibrated a Hall (magnetic field) sensor. I started by wiring the circuit from the course website, connecting VCC to 3.3V, GND to GND, and SIG to A0. Then I wrote the following code to read the signal being received. To calibrate the sensor, I placed small magnets at varied heights and then compared it to the serial plotter. When trying to find the maximum and minimum of the sensor, I discovered that it is quite sensitive for distances above 1 mm and less than 9 mm. Therefore, according to the data table below, the practical range is around 2 to 8 mm.  </p>
 
 <p>
    <pre><code class="language-arduino">
