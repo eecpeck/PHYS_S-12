@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<title>PHYS S-12: Milling, Molding, Casting</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/arduino-light.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/arduino.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+  
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div style="align-items: left; justify-content:left;" class="container-fluid">
+    <h3 class="nav-title"> PHYS S-12: Milling, Molding, Casting</h3>
+    <div class="navbar-nav">
+      <h4></h4>
+      <h4><a class="nav-link" href="../index.html">Home</a></h4>
+      <h4><a class="nav-link" href="../about.html">About</a></h4>
+    </div>
+  </div>
+</nav>
+
+<body>
+
+<xmp style="display:none;">
+<br> 
+
+#### Class 8: Milling, Molding, Casting
+  
+ On the 18th, we learned how operate CNC tools, such as the ShopBot and Shaper, and how to create something by molding and casting. 
+<p>
+For the first assignment, I drew a bat (my favorite animal) with a 94mm wing span using Fusion 360 and then exported the file to the hand-held Shaper. To control the Shaper, I had to lay down this barcoded tape in strips across the piece of plywood I was milling. Then, once I had the shaper turned on and connected to the vacuum, I was able to select my design from the USB Drive and resize it to fit the plywood. I decided to cut out my bat shape twice as big as originally designed because I did not know how much kerf to account for. While all in all the Shaper was fairly accurate, I figured out that if I moved it too fast or if it got too far away from the tape, the Shaper would starting jumping around, cutting a little too far into the design. </p>
+<p>
+
+</p>
+<img src=../pictures2/hall_sensor_data.png height="318">
+<img src=../pictures2/hall_sensor_dg.png width="237" height="317">
+<img src=../pictures2/hall_circuit1.png width="237" height="317">
+<img src=../pictures2/hall_circuit2.png width="422" height="318">
+<img src=../pictures2/hall_circuit3.png width="422" height="318">
+<img src=../pictures2/hall_circuit4.png width="422" height="318">
+
+<p>    
+</p>
+  <p>For the second part of my input device assignment, I decided to build my own capacitive throttle sensor. I used two popsicle sticks, two pieces of copper sticker, foam, masking tape, and wires. First, I stuck wires onto the two piece of copper and then on the popsicle sticks, sandwiching the wires to the sticks. Then, I taped the popsicle sticks together on the opposite side, having the copper sheets facing each other (tape on one end, copper on the other). Next, I pushed a piece of foam between the popsicle sticks as close to the tape as possible. This separated the popsicle sticks giving me enough room to tape another piece of foam between the two copper sheets.  </p>
+<p> 
+<img src=../pictures2/throttle2.png width="237" height="317">
+<img src=../pictures2/throttle3.png width="422" height="318">
+</p>
+
+  <p>To begin calibrating my throttle, I connected it to my Arduino Uno: power to pin 4 and GND to A3. Then, I used the second code from the tx-rx page. From there, I conducted two trials to find the maximum and minimum of the sensor. In both trials, I added the stated grams of pressure and wrote down the average for each point. Finally, I concluded that the closer the popsicle sticks press the copper together, the higher the signal it reads.</p>
+
+  <p>
+  <img src=../pictures2/throttle_data.png height="318">
+  <img src=../pictures2/throttle1.png width="422" height="318">
+  </p>
+
+
+  
+</xmp>
+</body>
+
+<script src="../strapdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+</html>
