@@ -50,11 +50,12 @@ For the first assignment, I drew a bat (my favorite animal) with a 94mm wing spa
 <img src=../pictures2/milling2.png height="318">
 </p>
 
-  <p>To begin calibrating my throttle, I connected it to my Arduino Uno: power to pin 4 and GND to A3. Then, I used the second code from the tx-rx page. From there, I conducted two trials to find the maximum and minimum of the sensor. In both trials, I added the stated grams of pressure and wrote down the average for each point. Finally, I concluded that the closer the popsicle sticks press the copper together, the higher the signal it reads.</p>
+  <p>The second step, and by far the longest, was creating the silicone mold. I went into the lab before class on Thursday, and I pulled out the clear silicone mixture. I poured equal amounts of both Part A and Part B into a cup and I mixed thoroughly. Next, I poured the mixture in the wax silhouette, letting it then sit for the next 6 hours. By the end of labs, the silicone mixture had completely set, and my mold was finished.</p>
 
   <p>
-  <img src=../pictures2/throttle_data.png height="318">
-  <img src=../pictures2/throttle1.png width="422" height="318">
+  <img src=../pictures2/mold1.png height="318">
+  <img src=../pictures2/mold2.png height="318">
+  <img src=../pictures2/mold3.png height="318">
   </p>
 
 
