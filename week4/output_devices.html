@@ -28,7 +28,7 @@
 
 #### Class 7: Output Devices
   
- For the 13th’s assignment, I choose a piezo buzzer as my output device and programed it to respond to my previous assignment, the capacitive throttle. 
+ For June 13th’s assignment, I choose a piezo buzzer as my output device and programed it to respond to my previous assignment, the capacitive throttle. 
 <p><img src=../pictures2/piezo.png height="318"></p>
   
 <p>
@@ -174,19 +174,175 @@ void loop() {
   </code></pre>
 </p>
   
-  <p>To calibrate the minimum and maximum of my sensor, I hooked up the throttle to my Arduino Uno. From there I conducted 2 trials. In both trials, I added the stated grams of pressure and compared it to the serial plotter, taking the average for each point. Finally, I concluded that the closer the popsicle sticks press the copper together, the higher the signal it reads.</p>
+  <p>After finishing writing the Skye Boat song melody, I had the brilliant idea to connect the piezo to my throttle from last assignment. So, I plugged the piezo into 11 and GND and the throttle into A3 and 4. Then, I wrote my code so that if my throttle reads a signal greater that 20,000, it will play my song! In my code, I made sure to use my own Millis function because it tends to be more efficient in the long run. </p>
 
-  <p>
-    <img src=../pictures2/throttle_data.png width="422" height="318">
-   </p>
     <p>
    <video width="380" height="250" controls>
-  <source src="../pictures2/throttle.mov" type="video/mp4">
+  <source src="../pictures2/buzzer_throttle.MOV" type="video/mp4">
 </video>
   <!--throttle video-->
     </p>
-  
-  
+  <p>
+  <pre><code class="language-arduino">
+  // Emory Peck
+// Skye Boat Song on piezo buzzer
+
+//music note definitions
+#define NOTE_C4 262
+#define NOTE_CS4 277
+#define NOTE_D4 294
+#define NOTE_DS4 311
+#define NOTE_E4 330
+#define NOTE_F4 349
+#define NOTE_FS4 370
+#define NOTE_G4 392
+#define NOTE_GS4 415
+#define NOTE_A4 440
+#define NOTE_AS4 466
+#define NOTE_B4 494
+#define NOTE_C5 523
+#define NOTE_CS5 554
+#define NOTE_D5 587
+#define NOTE_DS5 622
+#define NOTE_E5 659
+#define NOTE_F5 698
+#define NOTE_FS5 740
+#define NOTE_G5 784
+#define NOTE_GS5 831
+#define NOTE_A5 880
+#define NOTE_AS5 932
+#define NOTE_B5 988
+#define REST 0
+
+// Pin that controls the speaker
+int buzzer = 11;
+
+//variable for the result of the tx_rx measurement.
+int tx_pin = 4;
+int throttlePin = A3;
+
+// The notes of the melody have 2 parts, pitch and duration.
+// For each note there are four bytes (two 16 bit integers)
+// For the duration value:
+// A 4 means a quarter note, 8 an eighteenth, 16 sixteenth, etc
+// Negative numbers are used to represent dotted notes
+// A -4 means a dotted quarter note (a quarter plus an eighteenth)
+int melody[] = {
+  NOTE_D4, -4, NOTE_E4,  8, NOTE_D4,  4, NOTE_G4,  2, NOTE_G4,  8, NOTE_G4,  8, NOTE_A4, -4, NOTE_B4,  8,
+  NOTE_A4,  4, NOTE_D5, -2, NOTE_B4, -4, NOTE_A4,  8, NOTE_B4,  4, NOTE_E4,  2, NOTE_E4,  4, NOTE_D4, -2,
+  NOTE_D4, -4, NOTE_E4,  8, NOTE_D4,  4, NOTE_G4,  2, NOTE_G4,  8, NOTE_G4,  8, NOTE_A4, -4, NOTE_B4,  8,
+  NOTE_A4,  4, NOTE_D5, -2, NOTE_B4, -4, NOTE_A4,  8, NOTE_B4,  4, NOTE_E4,  2, NOTE_E4,  4, NOTE_G4, -2,
+  NOTE_B4, -4, NOTE_G4,  8, NOTE_B4,  4, NOTE_B4, -2, NOTE_A4, -4, NOTE_E4,  8, NOTE_A4,  4, NOTE_A4, -2,
+  NOTE_G4, -4, NOTE_E4,  8, NOTE_G4,  4, NOTE_G4,  2, NOTE_FS4, 4, NOTE_E4, -2, NOTE_B4, -4, NOTE_G4,  8,
+  NOTE_B4,  4, NOTE_B4, -2, NOTE_A4, -4, NOTE_E4,  8, NOTE_A4,  4, NOTE_A4, -2, NOTE_G4, -4, NOTE_E4,  8,
+  NOTE_G4,  4, NOTE_G4,  2, NOTE_FS4, 4, NOTE_E4, -2, NOTE_D4, -4, NOTE_E4,  8, NOTE_D4,  4, NOTE_G4,  2,
+  NOTE_G4,  8, NOTE_G4,  8, NOTE_A4, -4, NOTE_B4,  8, NOTE_A4,  4, NOTE_D5, -2, NOTE_B4, -4, NOTE_A4,  8,
+  NOTE_B4,  4, NOTE_E4,  2, NOTE_E4,  4, NOTE_G4, -2
+};
+
+// Each note in the array is composed of two integers.
+// Calculate the number of notes in the melody array.
+int notes = (sizeof(melody) / sizeof(melody[0])) / 2;
+
+// Function to sleep using millis
+// Inputs: unsinged long int delayTime - Time to sleep in milliseconds
+// Outputs: None
+void myDelay( unsigned long int delayTime){
+  unsigned long int startDelay = millis();
+  while ( millis() - startDelay < delayTime) ;
+}
+
+// Funtcion to play song
+// Inputs: None
+// Outputs: None
+void playSong() {
+  // Change this value to make the song slower or faster
+  int tempo = 114;
+
+  // A whole note in ms is (60s/tempo)*4 beats
+  int wholenote = (60000 * 4) / tempo;
+  int divider = 0;
+  int noteDuration = 0;
+
+  // Loop through all notes in song array
+  for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
+    // Get the duration of this note
+    divider = melody[thisNote + 1];
+
+
+    // If the duration is a positive number
+    if (divider > 0) {
+      // Calculate the duration of a regular note
+      noteDuration = (wholenote) / divider;
+    } 
+    // Else if the duration is negative
+    else if (divider < 0) {
+      // Calculate the duration of the dotted note
+      noteDuration = ((wholenote / abs(divider)) * 1.5);
+    }
+
+    // Play the note on the speaker for 90% of the duration, leaving 10% as a pause
+    tone(buzzer, melody[thisNote], noteDuration * 0.9);
+
+
+    // Wait for the calculated note duration before stopping the sound.
+    myDelay(noteDuration); // avoid using delay and use millis() instead
+   
+    // Stop the speaker before the next note.
+    noTone(buzzer);
+  }     // End of for loop
+}    // End of playSong Function
+
+// Function to read the throttle output
+// that depends on coupling of two electrodes.
+// Inputs: None
+// Outputs: long integer sum value of throttle reading
+long tx_rx()  {         
+  int read_high = 0;
+  int read_low = 0;
+  int diff = 0;
+  long int sum = 0;
+  int sampleSize = 100;    // Number of samples to take.  Larger number slows it down, but reduces scatter.
+
+  // Loop for samplesize iterations
+  for (int i = 0; i < sampleSize; i++)  {
+    digitalWrite(tx_pin,HIGH);             // Step the voltage high on conductor 1.
+    read_high = analogRead(throttlePin);   // Measure response of conductor 2.
+    digitalWrite(tx_pin,LOW);              // Step the voltage to zero on conductor 1.
+    read_low = analogRead(throttlePin);    // Measure response of conductor 2.
+    diff = read_high - read_low;           // desired answer is the difference between high and low.
+    sum += diff;                           // Sums up sampleSize of these measurements.
+  } // Endo of for loop
+  return sum;
+}                                          // End of tx_rx function.
+
+
+// Setup Function for arduino pins
+// Inputs: None
+// Outputs: None
+void setup() {
+  // Use tx_pin pin for Output voltage control
+  pinMode(tx_pin, OUTPUT);
+  Serial.begin(9600);
+} // End of setup function
+
+// Loop function to run the curcuit.
+// Look for throttle button push and play a song when found
+// Inputs: None
+// Outputs: None
+void loop() {
+  long result; // Used for recording a throttle push
+
+  // Check for a throttle press
+  result = tx_rx();
+
+  // If there is a thottle press then play the song
+  if (result > 20000) {  // Throttle values over ~10000-70000 represent a press
+    playSong();   //function to play song
+  }
+} // End of loop function
+</code></pre>
+</p>
 
 
   
