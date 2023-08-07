@@ -39,14 +39,140 @@ At first, I focused mainly on the buzzer. Using the resources provided on the co
 </video>
 </p>
 
-
 <p>    
 </p>
   <p>Over the weekend, I took the piezo buzzer home and kept fiddling with my song melody. Eventually, I had the idea to play an old Scottish melody, the Skye Boat Song, one of my mom’s favorites. First, I figured out the numbers that corresponded with each note length: half = 2, ¼ = 4, 1/8 =8, and all dotted notes are negative. From there, looked up the simple sheet music online and then transcribed it into my notes. Finally, I connected each note to the correct time duration. I had to ask some of my friends who know music theory for help on this part because I did not the specific names for each note. When I attempted this by myself a few of the notes sounded very off. Below is the sheet music I transcribed, the videa of the buzzer playing, and the code I wrote.</p>
 <p> 
 <img src=../pictures2/sheet_music.png height="318">
 
+<p>
+  <pre><code class="language-arduino">
+ /* 
+  Skye Boat Song 
+  Connect a piezo buzzer to pin 11.
+*/
 
+#define NOTE_C4  262
+#define NOTE_CS4 277
+#define NOTE_D4  294
+#define NOTE_DS4 311
+#define NOTE_E4  330
+#define NOTE_F4  349
+#define NOTE_FS4 370
+#define NOTE_G4  392
+#define NOTE_GS4 415
+#define NOTE_A4  440
+#define NOTE_AS4 466
+#define NOTE_B4  494
+#define NOTE_C5  523
+#define NOTE_CS5 554
+#define NOTE_D5  587
+#define NOTE_DS5 622
+#define NOTE_E5  659
+#define NOTE_F5  698
+#define NOTE_FS5 740
+#define NOTE_G5  784
+#define NOTE_GS5 831
+#define NOTE_A5  880
+#define NOTE_AS5 932
+#define NOTE_B5  988
+#define REST 0
+
+// change this to make the song slower or faster
+int tempo=114; 
+
+// change this to whichever pin you want to use
+int buzzer = 11;
+
+// notes of the melody followed by the duration.
+// a 4 means a quarter note, 8 an eighteenth, 16 sixteenth, so on
+// !!negative numbers are used to represent dotted notes,
+// so -4 means a dotted quarter note, that is, a quarter plus an eighteenth!!
+int melody[] = {
+
+  
+  NOTE_D4,-4,  NOTE_E4,8,  NOTE_D4,4,  
+  NOTE_G4,2,  NOTE_G4,8,  NOTE_G4,8, 
+  NOTE_A4,-4,  NOTE_B4,8,  NOTE_A4,4,  
+  NOTE_D5,-2,  
+  NOTE_B4,-4,  NOTE_A4,8, NOTE_B4,4,
+  NOTE_E4,2, NOTE_E4,4,
+  NOTE_D4,-2, 
+  
+  NOTE_D4,-4,  NOTE_E4,8,  NOTE_D4,4,  
+  NOTE_G4,2,  NOTE_G4,8,  NOTE_G4,8, 
+  NOTE_A4,-4,  NOTE_B4,8,  NOTE_A4,4,  
+  NOTE_D5,-2,  
+  NOTE_B4,-4,  NOTE_A4,8, NOTE_B4,4,
+  NOTE_E4,2, NOTE_E4,4,
+  NOTE_G4,-2, 
+
+  NOTE_B4,-4,  NOTE_G4,8,  NOTE_B4,4,  
+  NOTE_B4,-2,  
+  NOTE_A4,-4,  NOTE_E4,8,  NOTE_A4,4,  
+  NOTE_A4,-2, 
+  NOTE_G4,-4,  NOTE_E4,8,    NOTE_G4,4, 
+  NOTE_G4,2, NOTE_FS4,4,
+  NOTE_E4,-2,  
+
+  NOTE_B4,-4,  NOTE_G4,8,  NOTE_B4,4,  
+  NOTE_B4,-2,  
+  NOTE_A4,-4,  NOTE_E4,8,  NOTE_A4,4,  
+  NOTE_A4,-2, 
+  NOTE_G4,-4,  NOTE_E4,8,    NOTE_G4,4, 
+  NOTE_G4,2, NOTE_FS4,4,
+  NOTE_E4,-2, 
+
+  NOTE_D4,-4,  NOTE_E4,8,  NOTE_D4,4,  
+  NOTE_G4,2,  NOTE_G4,8,  NOTE_G4,8, 
+  NOTE_A4,-4,  NOTE_B4,8,  NOTE_A4,4,  
+  NOTE_D5,-2,  
+  NOTE_B4,-4,  NOTE_A4,8, NOTE_B4,4,
+  NOTE_E4,2, NOTE_E4,4,
+  NOTE_G4,-2, 
+
+};
+
+// sizeof gives the number of bytes, each int value is composed of two bytes (16 bits)
+// there are two values per note (pitch and duration), so for each note there are four bytes
+int notes=sizeof(melody)/sizeof(melody[0])/2; 
+
+// this calculates the duration of a whole note in ms (60s/tempo)*4 beats
+int wholenote = (60000 * 4) / tempo;
+
+int divider = 0, noteDuration = 0;
+
+void setup() {
+ for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
+
+    // calculates the duration of each note
+    divider = melody[thisNote + 1];
+    if (divider > 0) {
+      // regular note, just proceed
+      noteDuration = (wholenote) / divider;
+    } else if (divider < 0) {
+      // dotted notes are represented with negative durations!!
+      noteDuration = (wholenote) / abs(divider);
+      noteDuration *= 1.5; // increases the duration in half for dotted notes
+    }
+
+    // we only play the note for 90% of the duration, leaving 10% as a pause
+    tone(buzzer, melody[thisNote], noteDuration*0.9);
+
+    // Wait for the specief duration before playing the next note.
+    delay(noteDuration);
+    
+    // stop the waveform generation before the next note.
+    noTone(buzzer);
+ }
+}
+
+void loop() { 
+  //do not loop 
+}
+
+  </code></pre>
+</p>
   
   <p>To calibrate the minimum and maximum of my sensor, I hooked up the throttle to my Arduino Uno. From there I conducted 2 trials. In both trials, I added the stated grams of pressure and compared it to the serial plotter, taking the average for each point. Finally, I concluded that the closer the popsicle sticks press the copper together, the higher the signal it reads.</p>
 
@@ -60,49 +186,7 @@ At first, I focused mainly on the buzzer. Using the resources provided on the co
   <!--throttle video-->
     </p>
   
-  <p>
-  <pre><code class="language-arduino">
- //Code for Throttle:
-
-long result;   //variable for the result of the tx_rx measurement.
-int analog_pin = A3;
-int tx_pin = 4;
-
-void setup() {
-    pinMode(tx_pin, OUTPUT);      //Pin 4 provides the voltage step
-    Serial.begin(9600);
-}
-
-void loop() {
-    result = tx_rx();
-    Serial.println(result);
-}
-
-long tx_rx(){         // Function to execute rx_tx algorithm and return a value
-                      // that depends on coupling of two electrodes.
-                      // Value returned is a long integer.
-  int read_high;
-  int read_low;
-  int diff;
-  long int sum;
-  int N_samples = 100;    // Number of samples to take.  Larger number slows it down, but reduces scatter.
-
-  sum = 0;
-
-  for (int i = 0; i < N_samples; i++){
-   digitalWrite(tx_pin,HIGH);              // Step the voltage high on conductor 1.
-   read_high = analogRead(analog_pin);     // Measure response of conductor 2.
-   delayMicroseconds(100);                 // Delay to reach steady state.
-   digitalWrite(tx_pin,LOW);               // Step the voltage to zero on conductor 1.
-   read_low = analogRead(analog_pin);      // Measure response of conductor 2.
-   diff = read_high - read_low;            // desired answer is the difference between high and low.
-   sum += diff;                            // Sums up N_samples of these measurements.
- }
-  return sum;
-}                                          // End of tx_rx function.
-
-  </code></pre>
-</p>
+  
 
 
   
