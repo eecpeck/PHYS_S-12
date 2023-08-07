@@ -29,7 +29,7 @@
 #### Class 7: Output Devices
   
  For the 13th’s assignment, I choose a piezo buzzer as my output device and programed it to respond to my previous assignment, the capacitive throttle. 
-<p><img src=../pictures2/throttle1.png height="318"></p>
+<p><img src=../pictures2/piezo.png height="318"></p>
   
 <p>
 At first, I focused mainly on the buzzer. Using the resources provided on the course website, I was able to replicate the code provided to compose my own melody while I was in class (though it did not sound too great at first because I do not know much about composing). In labs, after class had ended, I hooked the oscilloscope to the piezo and played the song. Each note was observed on the oscilloscope at a different frequency: the higher the note, the higher frequency measured in Hertz. Basically, if the note had a higher pitch, the scope read a shorter wavelength and a higher frequency. My melody is not a fixed clock because the frequency changes between a low note of 200hz to a high note of 900hz. </p>
@@ -44,10 +44,8 @@ At first, I focused mainly on the buzzer. Using the resources provided on the co
 </p>
   <p>Over the weekend, I took the piezo buzzer home and kept fiddling with my song melody. Eventually, I had the idea to play an old Scottish melody, the Skye Boat Song, one of my mom’s favorites. First, I figured out the numbers that corresponded with each note length: half = 2, ¼ = 4, 1/8 =8, and all dotted notes are negative. From there, looked up the simple sheet music online and then transcribed it into my notes. Finally, I connected each note to the correct time duration. I had to ask some of my friends who know music theory for help on this part because I did not the specific names for each note. When I attempted this by myself a few of the notes sounded very off. Below is the sheet music I transcribed, the videa of the buzzer playing, and the code I wrote.</p>
 <p> 
-<img src=../pictures2/throttle1.png width="422" height="318">
-<img src=../pictures2/throttle2.png width="237" height="317">
-<img src=../pictures2/throttle3.png width="422" height="318">
-</p>
+<img src=../pictures2/sheet_music.png height="318">
+
 
   
   <p>To calibrate the minimum and maximum of my sensor, I hooked up the throttle to my Arduino Uno. From there I conducted 2 trials. In both trials, I added the stated grams of pressure and compared it to the serial plotter, taking the average for each point. Finally, I concluded that the closer the popsicle sticks press the copper together, the higher the signal it reads.</p>
