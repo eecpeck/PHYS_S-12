@@ -28,95 +28,110 @@
 
 #### Class 9: ESP32 Radio
   
- In class, on Tuesday the 11th, we learned about several different sensors, input devices, and coding techniques. Using the data and code provided on the class website, I was able to build working circuits for heat sensors and light sensors.
-<p>
-For the first part of the class assignment, I calibrated a Hall (magnetic field) sensor. I started by wiring the circuit from the course website, connecting VCC to 3.3V, GND to GND, and SIG to A0. Then I wrote the following code to read the signal being received. To calibrate the sensor, I placed small magnets at varied heights and then compared it to the serial plotter. When trying to find the maximum and minimum of the sensor, I discovered that it is quite sensitive for distances above 1 mm and less than 9 mm. Therefore, according to the data table below, the practical range is around 2 to 8 mm.  </p>
+ For June 20th’s assignment, my lab partner and I tied to replicate the ESP NOW example. First, we used the code provided in the website (also below) to get the MAC address of both ESP32 boards. My ESP32’s address was {0x18, 0xE7, 0xB0, 0x7E, 0xAE, 0xB0} and my partner’s was {0x90, 0x81, 0x58, 0x08, 0xB5, 0x22}. </p>
 
 <p>
    <pre><code class="language-arduino">
-     void setup(){
- Serial.begin(9600);
+     #include "WiFi.h"
+
+void setup(){
+  Serial.begin(115200);
+  WiFi.mode(WIFI_MODE_STA);
+  Serial.println(WiFi.macAddress());
 }
-   // read the value given 
- void loop(){
-  int val = analogRead(A0);  // read Hall sensor value
- }
+
+void loop(){
+
+}
  </code></pre>
 </p>
-<img src=../pictures2/hall_sensor_data.png height="318">
-<img src=../pictures2/hall_sensor_dg.png width="237" height="317">
-<img src=../pictures2/hall_circuit1.png width="237" height="317">
-<img src=../pictures2/hall_circuit2.png width="422" height="318">
-<img src=../pictures2/hall_circuit3.png width="422" height="318">
-<img src=../pictures2/hall_circuit4.png width="422" height="318">
-
+  
 <p>    
 </p>
-  <p>For the second part of my input device assignment, I decided to build my own capacitive throttle sensor. I used two popsicle sticks, two pieces of copper sticker, foam, masking tape, and wires. First, I stuck wires onto the two pieces of copper and then on the popsicle sticks, sandwiching the wires to the sticks. Then, I taped the popsicle sticks together on the opposite side, having the copper sheets facing each other (tape on one end, copper on the other). Next, I pushed a piece of foam between the popsicle sticks as close to the tape as possible. Separating the popsicle sticks gave me enough room to tape another piece of foam between the two copper sheets.  </p>
-<p> 
-<img src=../pictures2/throttle2.png width="237" height="317">
-<img src=../pictures2/throttle3.png width="422" height="318">
-</p>
-  <p>
-    <video width="380" height="250" controls>
-  <source src="../pictures2/throttle_mechanics.mov" type="video/mp4">
-</video>
-</p>
-  
-  <p>To begin calibrating my throttle, I connected it to my Arduino Uno: power to pin 4 and GND to A3. Then, I used the second code from the tx-rx page. From there, I conducted two trials to find the maximum and minimum of the sensor. In both trials, I added the stated grams of pressure and wrote down the average for each point. Finally, I concluded that the closer the popsicle sticks press the copper together, the higher the signal it reads.</p>
-
-  <p>
-  <img src=../pictures2/throttle_data.png height="318">
-  <img src=../pictures2/throttle1.png width="422" height="318">
-  </p>
-    <p>
-   <video width="380" height="250" controls>
-  <source src="../pictures2/throttle.mov" type="video/mp4">
-</video>
-  <!--throttle video-->
-    </p>
-  
+  <p>Then we tried to use the code below to send radio messages between our boards. However, we struggled getting it to work as intended. We kept getting different errors when trying to upload the code or the signal would keep getting lost and it would repeat “Error sending data.” It took hours before it suddenly decided to work. We were able to send “Hi” and “How are you?” with the code reading “Sent with success.” At this point, both I and my lab partner were both very frustrated and decided that that was the best we could figure out. I am not sure why it suddenly worked, but we were both very happy it did. </p>
+ 
   <p>
   <pre><code class="language-arduino">
- //Code for Throttle:
+#include <esp_now.h>
+#include <WiFi.h>
 
-long result;   //variable for the result of the tx_rx measurement.
-int analog_pin = A3;
-int tx_pin = 4;
+uint8_t broadcastAddress[] =  {0x90, 0x81, 0x58, 0x08, 0xB5, 0x22};    this is board no 1.
+// Variable to store if sending data was successful
+String success;
+
+byte incomingByte;
+byte outgoingByte;
+
+
+// Callback when data is sent
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  Serial.print("\r\nLast Packet Send Status:\t");
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+  if (status ==0){
+    success = "Delivery Success :)";
+  }
+  else{
+    success = "Delivery Fail :(";
+  }
+}
+
+// Callback when data is received
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+  memcpy(&incomingByte, incomingData, sizeof(incomingByte));
+  Serial.print("Bytes received: ");
+  Serial.println(len);
+}
 
 void setup() {
-    pinMode(tx_pin, OUTPUT);      //Pin 4 provides the voltage step
-    Serial.begin(9600);
+  // Init Serial Monitor
+  Serial.begin(115200);
+
+
+  // Set device as a Wi-Fi Station
+  WiFi.mode(WIFI_STA);
+
+  // Init ESP-NOW
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("Error initializing ESP-NOW");
+    return;
+  }
+
+  // Register for a callback function that will be called when data is received
+  esp_now_register_send_cb(OnDataSent);
+
+  // Register peer
+  esp_now_peer_info_t peerInfo;
+  memset(&peerInfo, 0, sizeof(peerInfo));
+  memcpy(peerInfo.peer_addr, broadcastAddress, 6);
+  peerInfo.channel = 0;  
+  peerInfo.encrypt = false;
+
+  // Add peer        
+  if (esp_now_add_peer(&peerInfo) != ESP_OK){
+    Serial.println("Failed to add peer");
+    return;
+  }
+  // Register for a callback function that will be called when data is received
+  esp_now_register_recv_cb(OnDataRecv);
 }
 
 void loop() {
-    result = tx_rx();
-    Serial.println(result);
+  Serial.println(incomingByte);
+  outgoingByte = incomingByte+1;
+
+  // Send message via ESP-NOW
+  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &outgoingByte, sizeof(outgoingByte));
+
+  if (result == ESP_OK) {
+    Serial.println("Sent with success");
+  }
+  else {
+    Serial.println("Error sending the data");
+  }
+
+ delay(1000);
+
 }
-
-long tx_rx(){         // Function to execute rx_tx algorithm and return a value
-                      // that depends on coupling of two electrodes.
-                      // Value returned is a long integer.
-  int read_high;
-  int read_low;
-  int diff;
-  long int sum;
-  int N_samples = 100;    // Number of samples to take.  Larger number slows it down, but reduces scatter.
-
-  sum = 0;
-
-  for (int i = 0; i < N_samples; i++){
-   digitalWrite(tx_pin,HIGH);              // Step the voltage high on conductor 1.
-   read_high = analogRead(analog_pin);     // Measure response of conductor 2.
-   delayMicroseconds(100);                 // Delay to reach steady state.
-   digitalWrite(tx_pin,LOW);               // Step the voltage to zero on conductor 1.
-   read_low = analogRead(analog_pin);      // Measure response of conductor 2.
-   diff = read_high - read_low;            // desired answer is the difference between high and low.
-   sum += diff;                            // Sums up N_samples of these measurements.
- }
-  return sum;
-}                                          // End of tx_rx function.
-
   </code></pre>
 </p>
 
