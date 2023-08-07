@@ -174,17 +174,16 @@ void loop() {
   </code></pre>
 </p>
   
-  <p>After finishing writing the Skye Boat song melody, I had the brilliant idea to connect the piezo to my throttle from last assignment. So, I plugged the piezo into 11 and GND and the throttle into A3 and 4. Then, I wrote my code so that if my throttle reads a signal greater that 20,000, it will play my song! In my code, I made sure to use my own Millis function because it tends to be more efficient in the long run. </p>
+  <p>After finishing writing the Skye Boat song melody, I had the brilliant idea to connect the piezo to my throttle from last assignment. So, I plugged the piezo into 11 and GND and the throttle into A3 and 4. Then, I wrote my code so that if my throttle reads a signal greater that 10,000, it will play my song! In my code, I made sure to use my own Millis function because it tends to be more efficient in the long run. </p>
 
     <p>
    <video width="380" height="250" controls>
   <source src="../pictures2/buzzer_throttle.MOV" type="video/mp4">
 </video>
-  <!--throttle video-->
     </p>
   
   <pre><code class="language-arduino">
-  // Emory Peck
+// Emory Peck
 // Skye Boat Song on piezo buzzer
 
 //music note definitions
