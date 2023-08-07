@@ -28,27 +28,15 @@
 
 #### Class 7: Output Devices
   
- In class, on Tuesday the 11th, we learned about several different sensors, input devices, and coding techniques. Using the data and code provided on the class website, I was able to build working circuits for heat sensors and light sensors.
+ For the 13th’s assignment, I choose a piezo buzzer as my output device and programed it to respond to my previous assignment, the capacitive throttle. 
 <p>
-For the first part of the class assignment, I attempted to calibrate a magnetic field sensor. I started by wiring the circuit from the course website. Then I wrote the code below to read the signal from the hall sensor. When trying to calibrate the maximum and minimum of the sensor, I discovered that it is quite sensitive for distances above 1 mm and less than 9 mm. According to the data table below, the practical range is around 2 to 8 mm. </p>
-
-<p>
-   <pre><code class="language-arduino">
-     void setup(){
- Serial.begin(9600);
-}
-   // read the value given 
- void loop(){
-  int val = analogRead(A0);  // read Hall sensor value
- }
- </code></pre>
+At first, I focused mainly on the buzzer. Using the resources provided on the course website, I was able to replicate the code provided to compose my own melody while I was in class (though it did not sound too great at first because I do not know much about composing). In labs, after class had ended, I hooked the oscilloscope to the piezo and played the song. Each note was observed on the oscilloscope at a different frequency: the higher the note, the higher frequency measured in Hertz. Basically, if the note had a higher pitch, the scope read a shorter wavelength and a higher frequency. My melody is not a fixed clock because the frequency changes between a low note of 200hz to a high note of 900hz. </p>
+  <p>
+    <video width="380" height="250" controls>
+  <source src="../pictures2/Oscilloscope.MOV" type="video/mp4">
+</video>
 </p>
-<img src=../pictures2/hall_sensor_data.png width="422" height="318">
-<img src=../pictures2/hall_sensor_dg.png width="237" height="317">
-<img src=../pictures2/hall_circuit1.png width="237" height="317">
-<img src=../pictures2/hall_circuit2.png width="422" height="318">
-<img src=../pictures2/hall_circuit3.png width="422" height="318">
-<img src=../pictures2/hall_circuit4.png width="422" height="318">
+
 
 <p>    
 </p>
@@ -58,11 +46,7 @@ For the first part of the class assignment, I attempted to calibrate a magnetic 
 <img src=../pictures2/throttle2.png width="237" height="317">
 <img src=../pictures2/throttle3.png width="422" height="318">
 </p>
-  <p>
-    <video width="380" height="250" controls>
-  <source src="../pictures2/throttle_mechanics.mov" type="video/mp4">
-</video>
-</p>
+
   
   <p>To calibrate the minimum and maximum of my sensor, I hooked up the throttle to my Arduino Uno. From there I conducted 2 trials. In both trials, I added the stated grams of pressure and compared it to the serial plotter, taking the average for each point. Finally, I concluded that the closer the popsicle sticks press the copper together, the higher the signal it reads.</p>
 
