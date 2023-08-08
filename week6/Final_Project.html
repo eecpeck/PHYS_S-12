@@ -119,8 +119,15 @@ After determining the average angle in each step, I applied the measurements to 
 <p>
 Once I had measured, and remeasured, each position, I wrote a code in Arduino that could move servo motors 1, 2, 3, and 4 simultaneously, creating the walking motion. Thankfully, before running the code I realized that I would have to run each motor separately because corresponding motors were facing opposite directions. Therefore, if the left knee joint was at 0 degrees, the right knee would be at 180 degrees, or if the left hip was at 120 degrees, the right hip would be 60 degrees. After writing the angles of each into my code, I added in Delay functions to slow the motion down. This allowed me to check to see if the legs were hitting each position correctly. 
 </p>
+  <p>
+    <video height="380" controls>
+  <source src="../pictures2/1leg_move.mov" type="video/mp4">
+</video>
+ <video height="380" controls>
+  <source src="../pictures2/1leg_move2.mov" type="video/mp4">
+</video>
+</p>
 
-<!--singular leg moving-->
 
 <p>
 Running the code allowed me to see that instead of the legs taking one step at a time, both legs were moving together, creating a sort of jumping movement. I quickly realized my mistake and staggered the positions for each leg in my code. Now, when the left leg was at position 1, the right would be at position 3, and if the left was at position 2, the right was at position 4 and vice versa. The legs would cycle through each position, then loop back to the top, starting the motion over. 
