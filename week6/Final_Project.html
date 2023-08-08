@@ -35,11 +35,15 @@
 </p>
   
 <h4>Inspiration and Project Goal:</h4>
-<p>For my final project, my objective was to design a machine that assisted my mom in her daily life. My mom has a disease called Multiple Sclerosis. This autoimmune disease targets her cognitive abilities and nervous system. When starting on my final project, I realized I had limitations in directly addressing her cognitive concerns. However, I recognized the opportunity to develop a prototype walking device that could potentially enhance her mobility for years to come. </p>
-<p>Throughout development, my focus mainly rested on the mechanics of the legs. The primary goal of the project was to construct a pair of synchronized legs that would seamlessly work together to create forward movement. </p>  
+<p>
+For my final project, my objective was to design a machine that assisted my mom in her daily life. My mom has a disease called Multiple Sclerosis. This autoimmune disease targets her cognitive abilities and nervous system. It is unpredictable and has the potential to render her immobile. When starting on my final project, I realized I was not able to address her cognitive concerns, but I could develop a prototype walking device that may potentially enhance her mobility for years to come.
+</p>
+<p>
+Throughout development, my focus mainly rested on the mechanics of the legs. The primary goal of the project was to construct a pair of synchronized legs that would seamlessly work together to create forward movement.
+</p>  
 
 <p>
-<h4>Materials</h4>
+<h4>Materials:</h4>
 <ul>
   <li>3D-Printed Braces </li>
   <li>Arduino Uno and Wiring</li>
@@ -51,6 +55,7 @@
 
 <p>
 <h4>Tools and Techniques:</h4>
+<ul>
   <li>3D Modeling & Printing </li>
   <li>Microcontroller Programming (Arduino)</li>
   <li>Electronic Inputs & Outputs</li>
@@ -59,26 +64,54 @@
 </p>
 
 <h4>Prototypes:</h4>
-<p>In the sixth week, I started prototyping ideas for the mechanics of the walking device. I originally start with four Nema17 Stepper Motors connected to an ESP32. I attached the motors to a 5V power source and wrote code for all four motors to run simultaneously. Observing the motors run, I quickly became skeptical whether the motors would be able to create enough torque to move my design, and after attaching 3D-printed braces onto the steppers, I realized my hypothesis was correct. The stepper motors were only strong enough to rotate the braces a total of 30 degrees, much less range of motion than I required. Even after the addition of a 3D-printed gearbox, the steppers physically could not create the required torque. Eventually, I had to completely scrap this design and start new.</p>
+<p>
+ In the sixth week of the course, I started prototyping ideas for the mechanics of the walking device. I originally started with four Nema17 Stepper Motors connected to an ESP32. I attached the motors to a 5V power source and wrote code for all four motors to run simultaneously. Watching the motors run, I quickly became skeptical about whether the motors would be able to create enough torque to move my design. After attaching 3D-printed braces onto the stepper motors, I realized my hypothesis was correct. The stepper motors were only strong enough to rotate the braces a total of 30 degrees, which is much narrower than my required range of motion of 0 to 180 degrees. Even after the addition of a 3D-printed gearbox, the steppers physically could not create the required torque. Eventually, I had to completely scrap this design and start anew.
+</p>
+  
 <!--vid and code here for steppers and first joints-->
 <!--3d model first copy-->
-<p>After having to start over, I researched simple mechanics and other motor types. I came up with the idea of utilizing two, side-by-side servo motors for each leg to control both hip and knee functions. After taking into account the femur to tibia length ratio, I 3D modeled the separate mechanical pieces for the design using Fusion 360. The 3D modeling process took around 4 days to complete with designing and printing, but it was well worth it! When the 3D-printing was complete, I assembled the separate pieces using screws of different lengths. Then, I attached the servo motors with gears into the square cut outs on the base. Finally, I secured the motors by screwing them down. Once all pieces were assembled correctly, I decided I was very pleased with the outcome and then proceeded into calibration. </p>
-
+  
+<p>
+After starting over, I researched simple mechanics and other motor types. I came up with the idea of utilizing two, side-by-side servo motors for each leg to control both hip and knee functions in a separate, synchronized fashion to properly emulate ambulation. After calculating the desired femur: tibia length ratio, I 3D modeled the separate mechanical pieces for the design using Fusion 360. Between designing and printing, the 3D modeling process took around 4 days to complete, but it was well worth it! When the 3D-printing was complete, I assembled the separate pieces using screws of different lengths. Next, I attached the servo motors with gears into the square cut-outs on the base. Finally, I secured the motors by screwing them down. Once all the pieces were assembled correctly, I was very pleased with the outcome, and I then proceeded to calibrate the hip and knee’s functional angles.
+</p>
+<!--fusion model link, pic of legs-->
+  
 <h4>Angles and Calibration:</h4>
-<p>To begin the calibration process, I took pictures of my friend walking, with her permission, to understand the basic angles in each step. While looking though the pictures afterwards, I was able to narrow down each step into four main parts: the leg lift, the placing of the foot, the push forward against the ground, and the lift for the next step. I then narrowed down to four pictures, each solely representing a part. Drawing on the photos allowed me to easily measure the angles of both hip and knee joints. </p>
+<p>
+To begin the calibration process, I took video and pictures of my friend walking, with her permission, to understand the basic angles in each step. While looking though the images, I was able to narrow down each step into four main parts: the leg lift, the placing of the foot, the push forward against the ground, and the lift for the next step. I then narrowed my images down to four pictures, each representing a single part of the desired motion. Digitally drawing on the photos allowed me to easily measure the angles of both hip and knee joints as seen in the example photo below. 
+</p>
+
 <!-- pic of girl walking-->
-<p>After determining the average angle in each step, I applied the measurements to my 3D-printed legs, carefully moving the hip and knee joints to replicate the human walk. Again, I recorded each angle’s measurement.</p>
+
+<p>
+After determining the average angle in each step, I applied the measurements to my 3D-printed legs, carefully moving the hip and knee joints to replicate the human walk. Again, I recorded each angle’s measurement and adjusted the angles as needed. 
+</p>
 
 <h4>Code:</h4>
-<p>Once I had measured, and remeasured, each position, I wrote a code in Arduino that could move servo motors 1, 2, 3, and 4 simultaneously, creating the walking motion. Thankfully, before running the code I realized that I would have to run each motor separately because corresponding motors were facing opposite directions. Therefore, if the left knee joint was at 0 degrees, the right knee would be at 180 degrees, or if the left hip was at 120 degrees, the right hip would be 60 degrees. After writing the angles of each into my code, I added in Delay functions to slow the motion down. This allowed me to check to see if the legs were hitting each position correctly. </p>
+<p>
+Once I had measured, and remeasured, each position, I wrote a code in Arduino that could move servo motors 1, 2, 3, and 4 simultaneously, creating the walking motion. Thankfully, before running the code I realized that I would have to run each motor separately because corresponding motors were facing opposite directions. Therefore, if the left knee joint was at 0 degrees, the right knee would be at 180 degrees, or if the left hip was at 120 degrees, the right hip would be 60 degrees. After writing the angles of each into my code, I added in Delay functions to slow the motion down. This allowed me to check to see if the legs were hitting each position correctly. 
+</p>
+
 <!--singular leg moving-->
-<p>Running the code allowed me to see that instead of the legs taking one step at a time, both legs were moving together, creating a sort of jumping movement. I quickly realized my mistake and staggered the positions for each leg in my code. Now, when the left leg was at position 1, the right would be at position 3, and if the left was at position 2, the right was at position 4. The legs would cycle through each position, then loop back to the top, starting the motion over. </p>
+
+<p>
+Running the code allowed me to see that instead of the legs taking one step at a time, both legs were moving together, creating a sort of jumping movement. I quickly realized my mistake and staggered the positions for each leg in my code. Now, when the left leg was at position 1, the right would be at position 3, and if the left was at position 2, the right was at position 4 and vice versa. The legs would cycle through each position, then loop back to the top, starting the motion over. 
+</p>
+
 <!--code for legs-->
 
 <h4>The Final Product:</h4>
-<p>Here is a video of my wearable walking robot prototype.</p>
+<p>
+Here is a video of my wearable walking robot prototype.
+</p>
+
 <!-- vid of final-->
-<p>I plan to keep working on this prototype for many years to come. Ideally, this design will become available to all, whether they need it to aid in mobility, or possibly as a full prosthetic. In pursuit of that, a patent is pending.</p>
+  
+<p>
+I plan to keep working on this prototype for many years to come. Ideally, this design will become available to all, whether they need it to aid in mobility, or possibly as a full prosthetic. In the meantime, while I pursue these advances, a patent is pending.
+</p>
+
+  
 </xmp>
 </body>
 
